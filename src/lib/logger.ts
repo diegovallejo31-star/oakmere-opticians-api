@@ -17,7 +17,10 @@ function write(level: Level, message: string, fields: Record<string, unknown> = 
 }
 
 export const logger = {
-  info: (message: string, fields?: Record<string, unknown>) => write('info', message, fields),
-  warn: (message: string, fields?: Record<string, unknown>) => write('warn', message, fields),
-  error: (message: string, fields?: Record<string, unknown>) => write('error', message, fields),
+  info: (message: string, fields?: Record<string, unknown>) =>
+    write('info', message, fields),
+  warn: (message: string, fields?: Record<string, unknown>) =>
+    write('warn', message, fields),
+  error: (message: string, fields?: Record<string, unknown>) =>
+    write('error', message, fields),
 };

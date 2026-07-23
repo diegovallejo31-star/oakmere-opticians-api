@@ -50,3 +50,16 @@ CREATE TABLE IF NOT EXISTS rate_limit_hits (
 );
 
 CREATE INDEX IF NOT EXISTS idx_rate_limit ON rate_limit_hits (bucket, at);
+
+-- A branch of the opticians - a testing room, a dispensing bench and a
+-- * front desk. The code is the one on the appointment card.
+CREATE TABLE IF NOT EXISTS practices (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  code TEXT NOT NULL,
+  name TEXT NOT NULL,
+  town TEXT NOT NULL,
+  opened_on TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS practices_code_idx ON practices (code);

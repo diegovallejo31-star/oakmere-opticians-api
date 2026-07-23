@@ -31,7 +31,7 @@ export function rateLimit(db: Database) {
 
     db.prepare('INSERT INTO rate_limit_hits (bucket, at) VALUES (?, ?)').run(
       bucket,
-      new Date(now).toISOString()
+      new Date(now).toISOString(),
     );
     next();
   };

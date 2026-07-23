@@ -20,7 +20,7 @@ export function errorHandler(
   err: unknown,
   _req: Request,
   res: Response,
-  _next: NextFunction
+  _next: NextFunction,
 ): void {
   // A body express itself could not parse never reaches a schema, so it is
   // turned into the same validation error a schema would have raised.
@@ -38,6 +38,10 @@ export function errorHandler(
     return;
   }
 
-  logger.error('unhandled error', { message: err instanceof Error ? err.message : String(err) });
-  res.status(500).json({ error: { code: 'internal_error', message: 'Something went wrong' } });
+  logger.error('unhandled error', {
+    message: err instanceof Error ? err.message : String(err),
+  });
+  res
+    .status(500)
+    .json({ error: { code: 'internal_error', message: 'Something went wrong' } });
 }
