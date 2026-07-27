@@ -8,6 +8,7 @@ import { requestLogger } from './middleware/requestLogger';
 import { createApiKeyRouter } from './modules/apikeys/apiKey.routes';
 import { createAuditRouter } from './modules/audit/audit.routes';
 import { createAuthRouter } from './modules/auth/auth.routes';
+import { createPracticeRouter } from './modules/practices/practice.routes';
 
 export function createApp(db: Database): Express {
   const app = express();
@@ -26,6 +27,7 @@ export function createApp(db: Database): Express {
   const requireApiKey = apiKeyAuth(db);
   app.use('/api-keys', requireApiKey, createApiKeyRouter(db));
   app.use('/audit', requireApiKey, createAuditRouter(db));
+  app.use('/practices', requireApiKey, createPracticeRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
