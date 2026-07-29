@@ -63,3 +63,18 @@ CREATE TABLE IF NOT EXISTS practices (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS practices_code_idx ON practices (code);
+
+-- Somebody on the strength at one branch. The GOC number is the General
+-- * Optical Council's and unique across the group, because it follows the person,
+-- * not the branch - and it is what a sight test checks before it lets a test be
+-- * signed off against them.
+CREATE TABLE IF NOT EXISTS staff (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  practice_id INTEGER NOT NULL REFERENCES practices(id) ON DELETE CASCADE,
+  goc_number TEXT NOT NULL,
+  name TEXT NOT NULL,
+  role TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS staff_goc_number_idx ON staff (goc_number);

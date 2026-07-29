@@ -12,14 +12,12 @@ describe('practices over the wire', () => {
   it('takes a new one and lists it back', async () => {
     const app = buildApp();
 
-    const made = await api(app)
-      .post('/practices')
-      .send({
-        code: 'OAK',
-        name: 'Oakmere High Street',
-        town: 'Oakmere',
-        openedOn: '2012-06-11',
-      });
+    const made = await api(app).post('/practices').send({
+      code: 'OAK',
+      name: 'Oakmere High Street',
+      town: 'Oakmere',
+      openedOn: '2012-06-11',
+    });
     expect(made.status).toBe(201);
 
     const listed = await api(app).get('/practices');
@@ -30,14 +28,12 @@ describe('practices over the wire', () => {
   it('answers one with exactly the fields it promises', async () => {
     const app = buildApp();
 
-    const made = await api(app)
-      .post('/practices')
-      .send({
-        code: 'OAK',
-        name: 'Oakmere High Street',
-        town: 'Oakmere',
-        openedOn: '2012-06-11',
-      });
+    const made = await api(app).post('/practices').send({
+      code: 'OAK',
+      name: 'Oakmere High Street',
+      town: 'Oakmere',
+      openedOn: '2012-06-11',
+    });
     expect(Object.keys(made.body).sort()).toEqual([
       'code',
       'createdAt',
@@ -52,14 +48,12 @@ describe('practices over the wire', () => {
   it('reads one back by its id, and 404s for one that is not there', async () => {
     const app = buildApp();
 
-    const made = await api(app)
-      .post('/practices')
-      .send({
-        code: 'OAK',
-        name: 'Oakmere High Street',
-        town: 'Oakmere',
-        openedOn: '2012-06-11',
-      });
+    const made = await api(app).post('/practices').send({
+      code: 'OAK',
+      name: 'Oakmere High Street',
+      town: 'Oakmere',
+      openedOn: '2012-06-11',
+    });
     const read = await api(app).get(`/practices/${made.body.id}`);
     expect(read.status).toBe(200);
     expect(read.body.id).toBe(made.body.id);
@@ -71,15 +65,13 @@ describe('practices over the wire', () => {
   it('turns down a body carrying a field it does not know', async () => {
     const app = buildApp();
 
-    const res = await api(app)
-      .post('/practices')
-      .send({
-        code: 'OAK',
-        name: 'Oakmere High Street',
-        town: 'Oakmere',
-        openedOn: '2012-06-11',
-        nonesuch: 1,
-      });
+    const res = await api(app).post('/practices').send({
+      code: 'OAK',
+      name: 'Oakmere High Street',
+      town: 'Oakmere',
+      openedOn: '2012-06-11',
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 
@@ -93,24 +85,20 @@ describe('practices over the wire', () => {
   it('refuses a second one with the same code', async () => {
     const app = buildApp();
 
-    const first = await api(app)
-      .post('/practices')
-      .send({
-        code: 'OAK',
-        name: 'Oakmere High Street',
-        town: 'Oakmere',
-        openedOn: '2012-06-11',
-      });
+    const first = await api(app).post('/practices').send({
+      code: 'OAK',
+      name: 'Oakmere High Street',
+      town: 'Oakmere',
+      openedOn: '2012-06-11',
+    });
     expect(first.status).toBe(201);
 
-    const again = await api(app)
-      .post('/practices')
-      .send({
-        code: 'OAK',
-        name: 'Oakmere High Street',
-        town: 'Oakmere',
-        openedOn: '2012-06-11',
-      });
+    const again = await api(app).post('/practices').send({
+      code: 'OAK',
+      name: 'Oakmere High Street',
+      town: 'Oakmere',
+      openedOn: '2012-06-11',
+    });
     expect(again.status).toBe(409);
   });
 
