@@ -60,14 +60,12 @@ describe('staff over the wire', () => {
     const app = buildApp();
     const practiceId = await makePractice(app);
 
-    const res = await api(app)
-      .post(`/practices/${practiceId}/staff`)
-      .send({
-        gocNumber: '01-31882',
-        name: 'Sara Abebe',
-        role: 'optometrist',
-        nonesuch: 1,
-      });
+    const res = await api(app).post(`/practices/${practiceId}/staff`).send({
+      gocNumber: '01-31882',
+      name: 'Sara Abebe',
+      role: 'optometrist',
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 

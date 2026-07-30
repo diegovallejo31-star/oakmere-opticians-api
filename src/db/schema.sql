@@ -78,3 +78,18 @@ CREATE TABLE IF NOT EXISTS staff (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS staff_goc_number_idx ON staff (goc_number);
+
+-- Somebody on the list. What matters to the till is their entitlement: a
+-- * patient with an NHS voucher has a flat amount taken off a pair of glasses, and
+-- * whether they have one is held here rather than asked at the counter, because a
+-- * voucher missed is money a patient was owed.
+CREATE TABLE IF NOT EXISTS patients (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  patient_ref TEXT NOT NULL,
+  name TEXT NOT NULL,
+  born_on TEXT NOT NULL,
+  voucher_pence INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS patients_patient_ref_idx ON patients (patient_ref);
