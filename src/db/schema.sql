@@ -93,3 +93,19 @@ CREATE TABLE IF NOT EXISTS patients (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS patients_patient_ref_idx ON patients (patient_ref);
+
+-- A frame in the display. It is bought in at a trade cost and sold at that
+-- * plus a markup in basis points; the retail price is worked out from the two and
+-- * never stored, so a trade price change reprices the display but not a pair of
+-- * glasses already dispensed.
+CREATE TABLE IF NOT EXISTS frames (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  sku TEXT NOT NULL,
+  brand TEXT NOT NULL,
+  model TEXT NOT NULL,
+  cost_pence INTEGER NOT NULL,
+  markup_basis_points INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS frames_sku_idx ON frames (sku);
