@@ -109,3 +109,18 @@ CREATE TABLE IF NOT EXISTS frames (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS frames_sku_idx ON frames (sku);
+
+-- A lens type on the price list - single vision, bifocal, varifocal - at a
+-- * flat price a pair. Unlike a frame there is no markup to apply; the price is
+-- * the price, and a dispensing copies it so a later list change does not move a
+-- * pair already glazed.
+CREATE TABLE IF NOT EXISTS lenses (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  code TEXT NOT NULL,
+  name TEXT NOT NULL,
+  kind TEXT NOT NULL,
+  price_pence INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS lenses_code_idx ON lenses (code);
