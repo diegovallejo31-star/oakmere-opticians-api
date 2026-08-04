@@ -75,3 +75,24 @@ export async function makePatient(
   }
   return res.body.id as number;
 }
+
+export async function makeFrame(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const res = await api(app)
+    .post('/frames')
+    .send({
+      sku: `FR-2201${n}`,
+      brand: 'Ferndown',
+      model: 'Ashcombe',
+      costPence: 4500,
+      markupBasisPoints: 12000,
+      ...fields,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeFrame: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
