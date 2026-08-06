@@ -124,3 +124,18 @@ CREATE TABLE IF NOT EXISTS lenses (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS lenses_code_idx ON lenses (code);
+
+-- An eye examination on a patient. It is signed off by an optometrist -
+-- * not a dispenser, not reception - and its outcome is what decides whether a
+-- * prescription follows. The fee is what the test cost, whether the NHS or the
+-- * patient pays it.
+CREATE TABLE IF NOT EXISTS sight_tests (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  patient_id INTEGER NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  optometrist_id INTEGER NOT NULL,
+  tested_on TEXT NOT NULL,
+  outcome TEXT NOT NULL,
+  fee_pence INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
