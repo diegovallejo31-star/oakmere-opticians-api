@@ -9,6 +9,7 @@ import { createApiKeyRouter } from './modules/apikeys/apiKey.routes';
 import { createAuditRouter } from './modules/audit/audit.routes';
 import { createAuthRouter } from './modules/auth/auth.routes';
 import { createFrameRouter } from './modules/frames/frame.routes';
+import { createLensRouter } from './modules/lenses/lens.routes';
 import { createPatientRouter } from './modules/patients/patient.routes';
 import { createPracticeRouter } from './modules/practices/practice.routes';
 import {
@@ -38,6 +39,7 @@ export function createApp(db: Database): Express {
   app.use('/staff', requireApiKey, createStaffMemberRouter(db));
   app.use('/patients', requireApiKey, createPatientRouter(db));
   app.use('/frames', requireApiKey, createFrameRouter(db));
+  app.use('/lenses', requireApiKey, createLensRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
