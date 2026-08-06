@@ -96,3 +96,23 @@ export async function makeFrame(
   }
   return res.body.id as number;
 }
+
+export async function makeLens(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const res = await api(app)
+    .post('/lenses')
+    .send({
+      code: `LN-SV${n}`,
+      name: 'Single vision, standard',
+      kind: 'single_vision',
+      pricePence: 3500,
+      ...fields,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeLens: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
