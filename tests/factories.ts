@@ -116,3 +116,26 @@ export async function makeLens(
   }
   return res.body.id as number;
 }
+
+export async function makeSightTest(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { patientId: parent, ...rest } = fields as { patientId?: number };
+  const patientId = parent ?? (await makePatient(app));
+  const optometristId = await makeStaffMember(app);
+  const res = await api(app)
+    .post(`/patients/${patientId}/sight-tests`)
+    .send({
+      optometristId: optometristId,
+      testedOn: '2025-04-10',
+      outcome: 'spectacles',
+      feePence: 2500,
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeSightTest: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
