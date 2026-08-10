@@ -139,3 +139,19 @@ CREATE TABLE IF NOT EXISTS sight_tests (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- The prescription written up after a sight test. It runs for a fixed
+-- * period - two years is usual - and lapses on its expiry day; a pair of glasses
+-- * glazed to a prescription that has run out is glazed to the wrong numbers, so
+-- * the expiry is held and checked rather than trusted.
+CREATE TABLE IF NOT EXISTS prescriptions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  patient_id INTEGER NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  reference TEXT NOT NULL,
+  issued_on TEXT NOT NULL,
+  expires_on TEXT NOT NULL,
+  summary TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS prescriptions_reference_idx ON prescriptions (reference);

@@ -19,14 +19,12 @@ describe('sighttests over the wire', () => {
     const patientId = await makePatient(app);
     const optometristId = await makeStaffMember(app);
 
-    const made = await api(app)
-      .post(`/patients/${patientId}/sight-tests`)
-      .send({
-        optometristId: optometristId,
-        testedOn: '2025-04-10',
-        outcome: 'spectacles',
-        feePence: 2500,
-      });
+    const made = await api(app).post(`/patients/${patientId}/sight-tests`).send({
+      optometristId: optometristId,
+      testedOn: '2025-04-10',
+      outcome: 'spectacles',
+      feePence: 2500,
+    });
     expect(made.status).toBe(201);
 
     const listed = await api(app).get(`/patients/${patientId}/sight-tests`);
@@ -39,14 +37,12 @@ describe('sighttests over the wire', () => {
     const patientId = await makePatient(app);
     const optometristId = await makeStaffMember(app);
 
-    const made = await api(app)
-      .post(`/patients/${patientId}/sight-tests`)
-      .send({
-        optometristId: optometristId,
-        testedOn: '2025-04-10',
-        outcome: 'spectacles',
-        feePence: 2500,
-      });
+    const made = await api(app).post(`/patients/${patientId}/sight-tests`).send({
+      optometristId: optometristId,
+      testedOn: '2025-04-10',
+      outcome: 'spectacles',
+      feePence: 2500,
+    });
     expect(Object.keys(made.body).sort()).toEqual([
       'createdAt',
       'feePence',
@@ -64,14 +60,12 @@ describe('sighttests over the wire', () => {
     const patientId = await makePatient(app);
     const optometristId = await makeStaffMember(app);
 
-    const made = await api(app)
-      .post(`/patients/${patientId}/sight-tests`)
-      .send({
-        optometristId: optometristId,
-        testedOn: '2025-04-10',
-        outcome: 'spectacles',
-        feePence: 2500,
-      });
+    const made = await api(app).post(`/patients/${patientId}/sight-tests`).send({
+      optometristId: optometristId,
+      testedOn: '2025-04-10',
+      outcome: 'spectacles',
+      feePence: 2500,
+    });
     const read = await api(app).get(`/sight-tests/${made.body.id}`);
     expect(read.status).toBe(200);
     expect(read.body.id).toBe(made.body.id);
@@ -85,15 +79,13 @@ describe('sighttests over the wire', () => {
     const patientId = await makePatient(app);
     const optometristId = await makeStaffMember(app);
 
-    const res = await api(app)
-      .post(`/patients/${patientId}/sight-tests`)
-      .send({
-        optometristId: optometristId,
-        testedOn: '2025-04-10',
-        outcome: 'spectacles',
-        feePence: 2500,
-        nonesuch: 1,
-      });
+    const res = await api(app).post(`/patients/${patientId}/sight-tests`).send({
+      optometristId: optometristId,
+      testedOn: '2025-04-10',
+      outcome: 'spectacles',
+      feePence: 2500,
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 
@@ -108,14 +100,12 @@ describe('sighttests over the wire', () => {
   it('404s when the patient is not there', async () => {
     const app = buildApp();
 
-    const res = await api(app)
-      .post('/patients/999999/sight-tests')
-      .send({
-        optometristId: 1,
-        testedOn: '2025-04-10',
-        outcome: 'spectacles',
-        feePence: 2500,
-      });
+    const res = await api(app).post('/patients/999999/sight-tests').send({
+      optometristId: 1,
+      testedOn: '2025-04-10',
+      outcome: 'spectacles',
+      feePence: 2500,
+    });
     expect(res.status).toBe(404);
   });
 
