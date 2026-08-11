@@ -155,3 +155,22 @@ CREATE TABLE IF NOT EXISTS prescriptions (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS prescriptions_reference_idx ON prescriptions (reference);
+
+-- A pair of glasses made up for a patient. What they pay is the frame at
+-- * its retail price, plus the lenses at theirs, less the flat NHS voucher the
+-- * patient is entitled to - and never below nil, because a voucher worth more
+-- * than the glasses does not pay money out. Every figure is worked out when the
+-- * pair is dispensed and then held.
+CREATE TABLE IF NOT EXISTS dispensings (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  patient_id INTEGER NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  frame_id INTEGER NOT NULL,
+  lens_id INTEGER NOT NULL,
+  dispensed_on TEXT NOT NULL,
+  frame_pence INTEGER NOT NULL,
+  lens_pence INTEGER NOT NULL,
+  voucher_pence INTEGER NOT NULL,
+  total_pence INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);

@@ -13,14 +13,12 @@ describe('prescriptions over the wire', () => {
     const app = buildApp();
     const patientId = await makePatient(app);
 
-    const made = await api(app)
-      .post(`/patients/${patientId}/prescriptions`)
-      .send({
-        reference: 'RX-5501',
-        issuedOn: '2025-04-10',
-        expiresOn: '2027-04-10',
-        summary: 'SV both eyes, -1.25',
-      });
+    const made = await api(app).post(`/patients/${patientId}/prescriptions`).send({
+      reference: 'RX-5501',
+      issuedOn: '2025-04-10',
+      expiresOn: '2027-04-10',
+      summary: 'SV both eyes, -1.25',
+    });
     expect(made.status).toBe(201);
 
     const listed = await api(app).get(`/patients/${patientId}/prescriptions`);
@@ -32,14 +30,12 @@ describe('prescriptions over the wire', () => {
     const app = buildApp();
     const patientId = await makePatient(app);
 
-    const made = await api(app)
-      .post(`/patients/${patientId}/prescriptions`)
-      .send({
-        reference: 'RX-5501',
-        issuedOn: '2025-04-10',
-        expiresOn: '2027-04-10',
-        summary: 'SV both eyes, -1.25',
-      });
+    const made = await api(app).post(`/patients/${patientId}/prescriptions`).send({
+      reference: 'RX-5501',
+      issuedOn: '2025-04-10',
+      expiresOn: '2027-04-10',
+      summary: 'SV both eyes, -1.25',
+    });
     expect(Object.keys(made.body).sort()).toEqual([
       'createdAt',
       'expiresOn',
@@ -56,14 +52,12 @@ describe('prescriptions over the wire', () => {
     const app = buildApp();
     const patientId = await makePatient(app);
 
-    const made = await api(app)
-      .post(`/patients/${patientId}/prescriptions`)
-      .send({
-        reference: 'RX-5501',
-        issuedOn: '2025-04-10',
-        expiresOn: '2027-04-10',
-        summary: 'SV both eyes, -1.25',
-      });
+    const made = await api(app).post(`/patients/${patientId}/prescriptions`).send({
+      reference: 'RX-5501',
+      issuedOn: '2025-04-10',
+      expiresOn: '2027-04-10',
+      summary: 'SV both eyes, -1.25',
+    });
     const read = await api(app).get(`/prescriptions/${made.body.id}`);
     expect(read.status).toBe(200);
     expect(read.body.id).toBe(made.body.id);
@@ -76,15 +70,13 @@ describe('prescriptions over the wire', () => {
     const app = buildApp();
     const patientId = await makePatient(app);
 
-    const res = await api(app)
-      .post(`/patients/${patientId}/prescriptions`)
-      .send({
-        reference: 'RX-5501',
-        issuedOn: '2025-04-10',
-        expiresOn: '2027-04-10',
-        summary: 'SV both eyes, -1.25',
-        nonesuch: 1,
-      });
+    const res = await api(app).post(`/patients/${patientId}/prescriptions`).send({
+      reference: 'RX-5501',
+      issuedOn: '2025-04-10',
+      expiresOn: '2027-04-10',
+      summary: 'SV both eyes, -1.25',
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 
@@ -100,38 +92,32 @@ describe('prescriptions over the wire', () => {
     const app = buildApp();
     const patientId = await makePatient(app);
 
-    const first = await api(app)
-      .post(`/patients/${patientId}/prescriptions`)
-      .send({
-        reference: 'RX-5501',
-        issuedOn: '2025-04-10',
-        expiresOn: '2027-04-10',
-        summary: 'SV both eyes, -1.25',
-      });
+    const first = await api(app).post(`/patients/${patientId}/prescriptions`).send({
+      reference: 'RX-5501',
+      issuedOn: '2025-04-10',
+      expiresOn: '2027-04-10',
+      summary: 'SV both eyes, -1.25',
+    });
     expect(first.status).toBe(201);
 
-    const again = await api(app)
-      .post(`/patients/${patientId}/prescriptions`)
-      .send({
-        reference: 'RX-5501',
-        issuedOn: '2025-04-10',
-        expiresOn: '2027-04-10',
-        summary: 'SV both eyes, -1.25',
-      });
+    const again = await api(app).post(`/patients/${patientId}/prescriptions`).send({
+      reference: 'RX-5501',
+      issuedOn: '2025-04-10',
+      expiresOn: '2027-04-10',
+      summary: 'SV both eyes, -1.25',
+    });
     expect(again.status).toBe(409);
   });
 
   it('404s when the patient is not there', async () => {
     const app = buildApp();
 
-    const res = await api(app)
-      .post('/patients/999999/prescriptions')
-      .send({
-        reference: 'RX-5501',
-        issuedOn: '2025-04-10',
-        expiresOn: '2027-04-10',
-        summary: 'SV both eyes, -1.25',
-      });
+    const res = await api(app).post('/patients/999999/prescriptions').send({
+      reference: 'RX-5501',
+      issuedOn: '2025-04-10',
+      expiresOn: '2027-04-10',
+      summary: 'SV both eyes, -1.25',
+    });
     expect(res.status).toBe(404);
   });
 
