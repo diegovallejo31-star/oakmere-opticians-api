@@ -139,3 +139,25 @@ export async function makeSightTest(
   }
   return res.body.id as number;
 }
+
+export async function makePrescription(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { patientId: parent, ...rest } = fields as { patientId?: number };
+  const patientId = parent ?? (await makePatient(app));
+  const res = await api(app)
+    .post(`/patients/${patientId}/prescriptions`)
+    .send({
+      reference: `RX-5501${n}`,
+      issuedOn: '2025-04-10',
+      expiresOn: '2027-04-10',
+      summary: 'SV both eyes, -1.25',
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makePrescription: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
