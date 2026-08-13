@@ -174,3 +174,17 @@ CREATE TABLE IF NOT EXISTS dispensings (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- The order that goes to the glazing lab for a dispensed pair. It is
+-- * ordered, then received back at the branch, then collected by the patient, and
+-- * it only ever moves forward - a pair collected has gone home, and one still on
+-- * order is not on the shelf to hand over.
+CREATE TABLE IF NOT EXISTS lab_orders (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  dispensing_id INTEGER NOT NULL REFERENCES dispensings(id) ON DELETE CASCADE,
+  lab_ref TEXT NOT NULL,
+  ordered_on TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'ordered',
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
