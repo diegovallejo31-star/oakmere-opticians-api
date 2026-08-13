@@ -161,3 +161,26 @@ export async function makePrescription(
   }
   return res.body.id as number;
 }
+
+export async function makeDispensing(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { patientId: parent, ...rest } = fields as { patientId?: number };
+  const patientId = parent ?? (await makePatient(app));
+  const frameId = await makeFrame(app);
+  const lensId = await makeLens(app);
+  const res = await api(app)
+    .post(`/patients/${patientId}/dispensings`)
+    .send({
+      frameId: frameId,
+      lensId: lensId,
+      dispensedOn: '2025-04-12',
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeDispensing: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
