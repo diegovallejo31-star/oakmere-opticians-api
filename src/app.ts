@@ -8,6 +8,10 @@ import { requestLogger } from './middleware/requestLogger';
 import { createApiKeyRouter } from './modules/apikeys/apiKey.routes';
 import { createAuditRouter } from './modules/audit/audit.routes';
 import { createAuthRouter } from './modules/auth/auth.routes';
+import {
+  createDispensingRouter,
+  createPatientDispensingRouter,
+} from './modules/dispensings/dispensing.routes';
 import { createFrameRouter } from './modules/frames/frame.routes';
 import { createLensRouter } from './modules/lenses/lens.routes';
 import { createPatientRouter } from './modules/patients/patient.routes';
@@ -52,6 +56,8 @@ export function createApp(db: Database): Express {
   app.use('/sight-tests', requireApiKey, createSightTestRouter(db));
   app.use('/patients', requireApiKey, createPatientPrescriptionRouter(db));
   app.use('/prescriptions', requireApiKey, createPrescriptionRouter(db));
+  app.use('/patients', requireApiKey, createPatientDispensingRouter(db));
+  app.use('/dispensings', requireApiKey, createDispensingRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
