@@ -184,3 +184,23 @@ export async function makeDispensing(
   }
   return res.body.id as number;
 }
+
+export async function makeLabOrder(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { dispensingId: parent, ...rest } = fields as { dispensingId?: number };
+  const dispensingId = parent ?? (await makeDispensing(app));
+  const res = await api(app)
+    .post(`/dispensings/${dispensingId}/lab-orders`)
+    .send({
+      labRef: 'LAB-3300',
+      orderedOn: '2025-04-12',
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeLabOrder: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
