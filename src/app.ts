@@ -13,6 +13,10 @@ import {
   createPatientDispensingRouter,
 } from './modules/dispensings/dispensing.routes';
 import { createFrameRouter } from './modules/frames/frame.routes';
+import {
+  createDispensingLabOrderRouter,
+  createLabOrderRouter,
+} from './modules/laborders/labOrder.routes';
 import { createLensRouter } from './modules/lenses/lens.routes';
 import { createPatientRouter } from './modules/patients/patient.routes';
 import { createPracticeRouter } from './modules/practices/practice.routes';
@@ -58,6 +62,8 @@ export function createApp(db: Database): Express {
   app.use('/prescriptions', requireApiKey, createPrescriptionRouter(db));
   app.use('/patients', requireApiKey, createPatientDispensingRouter(db));
   app.use('/dispensings', requireApiKey, createDispensingRouter(db));
+  app.use('/dispensings', requireApiKey, createDispensingLabOrderRouter(db));
+  app.use('/lab-orders', requireApiKey, createLabOrderRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
