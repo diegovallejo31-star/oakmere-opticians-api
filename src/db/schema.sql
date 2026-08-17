@@ -188,3 +188,16 @@ CREATE TABLE IF NOT EXISTS lab_orders (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- A reminder that a patient is due for another test. It is raised for a
+-- * day ahead and sits scheduled until it goes out or is dismissed; the front
+-- * desk works off the scheduled list, so one dealt with drops off it for good.
+CREATE TABLE IF NOT EXISTS recalls (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  patient_id INTEGER NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  due_on TEXT NOT NULL,
+  note TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'scheduled',
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
