@@ -204,3 +204,23 @@ export async function makeLabOrder(
   }
   return res.body.id as number;
 }
+
+export async function makeRecall(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { patientId: parent, ...rest } = fields as { patientId?: number };
+  const patientId = parent ?? (await makePatient(app));
+  const res = await api(app)
+    .post(`/patients/${patientId}/recalls`)
+    .send({
+      dueOn: '2027-04-10',
+      note: 'Two-year recall',
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeRecall: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
