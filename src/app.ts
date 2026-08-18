@@ -25,6 +25,10 @@ import {
   createPrescriptionRouter,
 } from './modules/prescriptions/prescription.routes';
 import {
+  createPatientRecallRouter,
+  createRecallRouter,
+} from './modules/recalls/recall.routes';
+import {
   createPatientSightTestRouter,
   createSightTestRouter,
 } from './modules/sighttests/sightTest.routes';
@@ -64,6 +68,8 @@ export function createApp(db: Database): Express {
   app.use('/dispensings', requireApiKey, createDispensingRouter(db));
   app.use('/dispensings', requireApiKey, createDispensingLabOrderRouter(db));
   app.use('/lab-orders', requireApiKey, createLabOrderRouter(db));
+  app.use('/patients', requireApiKey, createPatientRecallRouter(db));
+  app.use('/recalls', requireApiKey, createRecallRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
