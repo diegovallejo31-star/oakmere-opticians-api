@@ -201,3 +201,16 @@ CREATE TABLE IF NOT EXISTS recalls (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- A frame repair - a soldered hinge, a new arm. It is charged at whatever
+-- * the bench quotes and hangs off the patient, because it goes on their bill
+-- * whether or not the frame was one of ours.
+CREATE TABLE IF NOT EXISTS repairs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  patient_id INTEGER NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  brought_on TEXT NOT NULL,
+  description TEXT NOT NULL,
+  charge_pence INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
