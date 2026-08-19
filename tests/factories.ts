@@ -224,3 +224,24 @@ export async function makeRecall(
   }
   return res.body.id as number;
 }
+
+export async function makeRepair(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { patientId: parent, ...rest } = fields as { patientId?: number };
+  const patientId = parent ?? (await makePatient(app));
+  const res = await api(app)
+    .post(`/patients/${patientId}/repairs`)
+    .send({
+      broughtOn: '2025-05-02',
+      description: 'Re-solder left hinge',
+      chargePence: 1500,
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeRepair: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
