@@ -29,6 +29,10 @@ import {
   createRecallRouter,
 } from './modules/recalls/recall.routes';
 import {
+  createPatientRepairRouter,
+  createRepairRouter,
+} from './modules/repairs/repair.routes';
+import {
   createPatientSightTestRouter,
   createSightTestRouter,
 } from './modules/sighttests/sightTest.routes';
@@ -70,6 +74,8 @@ export function createApp(db: Database): Express {
   app.use('/lab-orders', requireApiKey, createLabOrderRouter(db));
   app.use('/patients', requireApiKey, createPatientRecallRouter(db));
   app.use('/recalls', requireApiKey, createRecallRouter(db));
+  app.use('/patients', requireApiKey, createPatientRepairRouter(db));
+  app.use('/repairs', requireApiKey, createRepairRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
