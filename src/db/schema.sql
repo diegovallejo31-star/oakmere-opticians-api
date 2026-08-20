@@ -214,3 +214,17 @@ CREATE TABLE IF NOT EXISTS repairs (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- A monthly plan that covers a patient's contact lenses and checks. It
+-- * runs at a flat monthly charge from the day it starts until it is cancelled,
+-- * and it cancels once - a cancelled plan is one the direct debit has been
+-- * stopped on, and it does not quietly start billing again.
+CREATE TABLE IF NOT EXISTS contact_plans (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  patient_id INTEGER NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  started_on TEXT NOT NULL,
+  monthly_pence INTEGER NOT NULL,
+  status TEXT NOT NULL DEFAULT 'active',
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);

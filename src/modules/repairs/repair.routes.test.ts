@@ -13,13 +13,11 @@ describe('repairs over the wire', () => {
     const app = buildApp();
     const patientId = await makePatient(app);
 
-    const made = await api(app)
-      .post(`/patients/${patientId}/repairs`)
-      .send({
-        broughtOn: '2025-05-02',
-        description: 'Re-solder left hinge',
-        chargePence: 1500,
-      });
+    const made = await api(app).post(`/patients/${patientId}/repairs`).send({
+      broughtOn: '2025-05-02',
+      description: 'Re-solder left hinge',
+      chargePence: 1500,
+    });
     expect(made.status).toBe(201);
 
     const listed = await api(app).get(`/patients/${patientId}/repairs`);
@@ -31,13 +29,11 @@ describe('repairs over the wire', () => {
     const app = buildApp();
     const patientId = await makePatient(app);
 
-    const made = await api(app)
-      .post(`/patients/${patientId}/repairs`)
-      .send({
-        broughtOn: '2025-05-02',
-        description: 'Re-solder left hinge',
-        chargePence: 1500,
-      });
+    const made = await api(app).post(`/patients/${patientId}/repairs`).send({
+      broughtOn: '2025-05-02',
+      description: 'Re-solder left hinge',
+      chargePence: 1500,
+    });
     expect(Object.keys(made.body).sort()).toEqual([
       'broughtOn',
       'chargePence',
@@ -53,13 +49,11 @@ describe('repairs over the wire', () => {
     const app = buildApp();
     const patientId = await makePatient(app);
 
-    const made = await api(app)
-      .post(`/patients/${patientId}/repairs`)
-      .send({
-        broughtOn: '2025-05-02',
-        description: 'Re-solder left hinge',
-        chargePence: 1500,
-      });
+    const made = await api(app).post(`/patients/${patientId}/repairs`).send({
+      broughtOn: '2025-05-02',
+      description: 'Re-solder left hinge',
+      chargePence: 1500,
+    });
     const read = await api(app).get(`/repairs/${made.body.id}`);
     expect(read.status).toBe(200);
     expect(read.body.id).toBe(made.body.id);
@@ -72,14 +66,12 @@ describe('repairs over the wire', () => {
     const app = buildApp();
     const patientId = await makePatient(app);
 
-    const res = await api(app)
-      .post(`/patients/${patientId}/repairs`)
-      .send({
-        broughtOn: '2025-05-02',
-        description: 'Re-solder left hinge',
-        chargePence: 1500,
-        nonesuch: 1,
-      });
+    const res = await api(app).post(`/patients/${patientId}/repairs`).send({
+      broughtOn: '2025-05-02',
+      description: 'Re-solder left hinge',
+      chargePence: 1500,
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 
@@ -94,13 +86,11 @@ describe('repairs over the wire', () => {
   it('404s when the patient is not there', async () => {
     const app = buildApp();
 
-    const res = await api(app)
-      .post('/patients/999999/repairs')
-      .send({
-        broughtOn: '2025-05-02',
-        description: 'Re-solder left hinge',
-        chargePence: 1500,
-      });
+    const res = await api(app).post('/patients/999999/repairs').send({
+      broughtOn: '2025-05-02',
+      description: 'Re-solder left hinge',
+      chargePence: 1500,
+    });
     expect(res.status).toBe(404);
   });
 
