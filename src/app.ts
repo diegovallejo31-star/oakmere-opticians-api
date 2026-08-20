@@ -9,6 +9,10 @@ import { createApiKeyRouter } from './modules/apikeys/apiKey.routes';
 import { createAuditRouter } from './modules/audit/audit.routes';
 import { createAuthRouter } from './modules/auth/auth.routes';
 import {
+  createContactPlanRouter,
+  createPatientContactPlanRouter,
+} from './modules/contactplans/contactPlan.routes';
+import {
   createDispensingRouter,
   createPatientDispensingRouter,
 } from './modules/dispensings/dispensing.routes';
@@ -76,6 +80,8 @@ export function createApp(db: Database): Express {
   app.use('/recalls', requireApiKey, createRecallRouter(db));
   app.use('/patients', requireApiKey, createPatientRepairRouter(db));
   app.use('/repairs', requireApiKey, createRepairRouter(db));
+  app.use('/patients', requireApiKey, createPatientContactPlanRouter(db));
+  app.use('/contact-plans', requireApiKey, createContactPlanRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
