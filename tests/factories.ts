@@ -245,3 +245,23 @@ export async function makeRepair(
   }
   return res.body.id as number;
 }
+
+export async function makeContactPlan(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { patientId: parent, ...rest } = fields as { patientId?: number };
+  const patientId = parent ?? (await makePatient(app));
+  const res = await api(app)
+    .post(`/patients/${patientId}/contact-plans`)
+    .send({
+      startedOn: '2025-01-15',
+      monthlyPence: 2200,
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeContactPlan: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
