@@ -228,3 +228,22 @@ CREATE TABLE IF NOT EXISTS contact_plans (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- A bill to one patient. It gathers what they owe - the glasses they were
+-- * dispensed (already net of any voucher), the tests they paid for, and any
+-- * repairs - and totals them. Each figure is read once, when the invoice is
+-- * raised, and then stored; spectacles are zero-rated, so there is no VAT line to
+-- * muddle.
+CREATE TABLE IF NOT EXISTS invoices (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  patient_id INTEGER NOT NULL,
+  number TEXT NOT NULL,
+  raised_on TEXT NOT NULL,
+  glasses_pence INTEGER NOT NULL,
+  tests_pence INTEGER NOT NULL,
+  repairs_pence INTEGER NOT NULL,
+  total_pence INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS invoices_number_idx ON invoices (number);
