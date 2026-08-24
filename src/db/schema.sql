@@ -247,3 +247,17 @@ CREATE TABLE IF NOT EXISTS invoices (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS invoices_number_idx ON invoices (number);
+
+-- A payment against an invoice. A learner often pays a block at a time, so
+-- * an invoice is settled in parts; what is left is the gross less everything
+-- * taken, and a payment that would take it past nil is turned away rather than
+-- * left as a credit on the account.
+CREATE TABLE IF NOT EXISTS payments (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  invoice_id INTEGER NOT NULL,
+  paid_on TEXT NOT NULL,
+  method TEXT NOT NULL,
+  amount_pence INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);

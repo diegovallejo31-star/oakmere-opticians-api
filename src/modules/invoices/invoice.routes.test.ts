@@ -91,14 +91,12 @@ describe('invoices over the wire', () => {
       dispensedOn: '2025-04-12',
     });
 
-    const res = await api(app)
-      .post('/invoices')
-      .send({
-        patientId: patientId,
-        number: 'OINV-1000',
-        raisedOn: '2025-04-30',
-        nonesuch: 1,
-      });
+    const res = await api(app).post('/invoices').send({
+      patientId: patientId,
+      number: 'OINV-1000',
+      raisedOn: '2025-04-30',
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 
@@ -161,15 +159,13 @@ describe('invoices over the wire', () => {
     const app = buildApp();
     const patientId = await makePatient(app, { voucherPence: 0 });
 
-    const frame = await api(app)
-      .post('/frames')
-      .send({
-        sku: 'FR-IV',
-        brand: 'B',
-        model: 'M',
-        costPence: 5000,
-        markupBasisPoints: 10000,
-      });
+    const frame = await api(app).post('/frames').send({
+      sku: 'FR-IV',
+      brand: 'B',
+      model: 'M',
+      costPence: 5000,
+      markupBasisPoints: 10000,
+    });
     const lens = await api(app)
       .post('/lenses')
       .send({ code: 'LN-IV', name: 'SV', kind: 'single_vision', pricePence: 3000 });
