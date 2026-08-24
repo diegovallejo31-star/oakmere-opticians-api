@@ -265,3 +265,30 @@ export async function makeContactPlan(
   }
   return res.body.id as number;
 }
+
+export async function makeInvoice(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const patientId = await makePatient(app, { voucherPence: 0 });
+  const frameId = await makeFrame(app);
+  const lensId = await makeLens(app);
+  await api(app).post(`/patients/${patientId}/dispensings`).send({
+    frameId,
+    lensId,
+    dispensedOn: '2025-04-12',
+  });
+  const res = await api(app)
+    .post('/invoices')
+    .send({
+      patientId: patientId,
+      number: `OINV-1000${n}`,
+      raisedOn: '2025-04-30',
+      ...fields,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeInvoice: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
