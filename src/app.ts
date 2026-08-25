@@ -24,6 +24,7 @@ import {
 } from './modules/laborders/labOrder.routes';
 import { createLensRouter } from './modules/lenses/lens.routes';
 import { createPatientRouter } from './modules/patients/patient.routes';
+import { createPaymentRouter } from './modules/payments/payment.routes';
 import { createPracticeRouter } from './modules/practices/practice.routes';
 import {
   createPatientPrescriptionRouter,
@@ -84,6 +85,7 @@ export function createApp(db: Database): Express {
   app.use('/patients', requireApiKey, createPatientContactPlanRouter(db));
   app.use('/contact-plans', requireApiKey, createContactPlanRouter(db));
   app.use('/invoices', requireApiKey, createInvoiceRouter(db));
+  app.use('/payments', requireApiKey, createPaymentRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
